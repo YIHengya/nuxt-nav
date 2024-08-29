@@ -1,12 +1,9 @@
 export default defineEventHandler(async (event) => {
   try {
     const { action, data } = await readBody(event)
-    console.log("action:",action)
-    console.log("data:",data)
 
     switch (action) {
       case 'addCategory':
-        console.log("test","正在添加内容")
         const addedCategory = await addCategory(data.category, data.description)
         return {
           success: true,

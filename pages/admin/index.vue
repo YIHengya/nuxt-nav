@@ -1,17 +1,60 @@
 <template>
-  <div>
-    <button
-      @click="handleAddCategory"
-      :disabled="isLoading"
-    >
-      {{ isLoading ? '添加中...' : '添加测试类别' }}
-    </button>
-    <div v-if="result">
-      <p>{{ result.success ? '添加成功！' : '添加失败！' }}</p>
-      <p>{{ result.message }}</p>
-      <pre v-if="result.data">{{ JSON.stringify(result.data, null, 2) }}</pre>
-    </div>
-  </div>
+  <v-container class="admin-panel">
+    <v-row class="admin-panel-header">
+      <v-col cols="6">
+        <span>当前共：{{ categories.length }}条</span>
+      </v-col>
+      <v-col cols="6" class="text-right">
+        <button style="color:#1677FF" class="m-1" @click="showAddDialog = true">添加</button>
+        <button style="color:#1677FF" class="ml-3" @click="handleRefresh">刷新</button>
+      </v-col>
+    </v-row>
+
+    <v-table>
+      <thead>
+        <tr>
+          <th>分类名称</th>
+          <th>描述</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(category, index) in categories" :key="category.id">
+          <td>{{ category.category }}</td>
+          <td>{{ category.description }}</td>
+          <td>
+            <button style="color:#1677FF" class="mr-2" @click="deleteCategory(category.id)">编辑</button>
+            <button style="color:#1677FF" class="mr-2" @click="editCategory(index)">删除</button>
+          </td>
+        </tr>
+      </tbody>
+    </v-table>
+    <!-- Vuetify Dialog -->
+    <v-dialog v-model="showAddDialog" max-width="500px">
+      <v-card>
+        <v-card-title>
+          <span class="text-h5">添加分类</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field v-model="newCategory" label="分类名称" required></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field v-model="newDescription" label="描述" required></v-text-field>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn  @click="showAddDialog = false">取消</v-btn>
+          <v-btn   @click="addCategory('asdfasdf','weqrqwer')">添加分类</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-container>
 </template>
 
 <script lang="ts" setup>
@@ -19,8 +62,16 @@ definePageMeta({
   layout: 'admin-layout'
 })
 
+const showAddDialog = ref(false)
 const isLoading = ref(false)
-const result = ref(null)
+const newCategory = ref('')
+const newDescription = ref('')
+const { body: categories } = await queryContent('/data').findOne()
+
+function handleRefresh() {
+  console.log('刷新操作');
+  // 进行刷新逻辑处理
+}
 
 const addCategory = async (category: string, description: string) => {
   isLoading.value = true
@@ -28,6 +79,8 @@ const addCategory = async (category: string, description: string) => {
   try {
     const { data, error } = await useFetch('/api/data-manager', {
       method: 'POST',
+      server:false,
+      key:"data-manager",
       body: {
         action: 'addCategory',
         data: { category, description }
@@ -38,14 +91,7 @@ const addCategory = async (category: string, description: string) => {
       throw new Error(error.value.message)
     }
 
-    result.value = data.value
-    console.log('API Response:', data.value)
   } catch (error) {
-    result.value = {
-      success: false,
-      message: '调用 API 时发生错误',
-      error: error.toString()
-    }
     console.error('Error calling API:', error)
   } finally {
     isLoading.value = false
@@ -53,27 +99,26 @@ const addCategory = async (category: string, description: string) => {
 }
 
 const handleAddCategory = () => {
-  addCategory('测试类别', '这是一个测试类别的描述')
+  addCategory(newCategory.value, newDescription.value)
+  showAddDialog.value = false
+  newCategory.value = ''
+  newDescription.value = ''
+}
+
+const editCategory = (index: number) => {
+  // 实现编辑逻辑
+  console.log('编辑分类:', index)
+}
+
+const deleteCategory = (id: string) => {
+  // 实现删除逻辑
+  console.log('删除分类:', id)
 }
 </script>
 
 <style scoped>
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-}
+.admin-panel-header bottom{
 
-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-pre {
-  background-color: #f4f4f4;
-  padding: 10px;
-  border-radius: 4px;
-  white-space: pre-wrap;
-  word-wrap: break-word;
+  margin: 5px;
 }
 </style>
