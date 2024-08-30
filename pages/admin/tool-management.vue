@@ -236,6 +236,7 @@ const handleEditTool = async () => {
 
 const deleteTool = async (id: string) => {
   try {
+    console.log(id)
     const { data, error } = await useFetch('/api/data-manager', {
       method: 'POST',
       server: false,

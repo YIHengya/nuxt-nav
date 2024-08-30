@@ -99,3 +99,27 @@ export async function addToolToCategory(categoryId: number, tool: any) {
   }
 }
 
+export async function deleteToolById(toolId: number) {
+  const data = await readJsonFile();
+  let toolDeleted = false;
+
+  for (let i = 0; i < data.length; i++) {
+    const category = data[i];
+    if (category.links) {
+      const toolIndex = category.links.findIndex((tool: { id: number }) => tool.id === toolId);
+      if (toolIndex !== -1) {
+        // 找到了工具，从数组中删除
+        category.links.splice(toolIndex, 1);
+        toolDeleted = true;
+        break; // 工具已找到并删除，退出循环
+      }
+    }
+  }
+
+  if (toolDeleted) {
+    await writeJsonFile(data);
+    return { success: true, message: `Tool with ID "${toolId}" has been deleted.` };
+  } else {
+    throw new Error(`Tool with ID "${toolId}" not found.`);
+  }
+}
