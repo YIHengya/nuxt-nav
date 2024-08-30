@@ -1,5 +1,5 @@
 import { defineEventHandler, readBody } from 'h3'
-import { deleteCategoryById } from '~/server/utils/data-tools'
+import { deleteCategoryById, editCategoryById } from '~/server/utils/data-tools'
 
 let lastRequestTime = 0
 const RATE_LIMIT_INTERVAL = 1000 // 5 seconds in milliseconds
@@ -51,6 +51,12 @@ export default defineEventHandler(async (event) => {
           message: 'Link deleted from category successfully',
           data: deleteCategory
         }
+      case 'editCategory': // 新增的 case
+        await editCategoryById(data.id, data.category, data.description);
+        return {
+          success: true,
+          message: 'Category edited successfully'
+        };
       default:
         throw new Error('Invalid action')
     }

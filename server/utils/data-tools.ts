@@ -61,3 +61,17 @@ export async function deleteCategory(categoryName: any) {
   data = data.filter((item: { category: any }) => item.category !== categoryName)
   await writeJsonFile(data)
 }
+
+
+// 新增的编辑分类的方法
+export async function editCategoryById(categoryId: any, newCategory: any, newDescription: any) {
+  const data = await readJsonFile();
+  const category = data.find((item: { id: any }) => item.id === categoryId);
+  if (category) {
+    category.category = newCategory;
+    category.description = newDescription;
+    await writeJsonFile(data);
+  } else {
+    throw new Error(`Category with ID "${categoryId}" not found`);
+  }
+}

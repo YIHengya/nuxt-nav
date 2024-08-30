@@ -5,7 +5,7 @@
         <span>当前共：{{ categories.length }}条</span>
       </v-col>
       <v-col cols="6" class="text-right">
-        <button style="color:#1677FF" class="m-1" @click="showAddDialog = true">添加</button>
+        <button style="color:#1677FF" class="m-1" @click="openAddDialog">添加</button>
         <button style="color:#1677FF" class="ml-3" @click="handleRefresh" :disabled="isLoading">
           {{ isLoading ? '刷新中...' : '刷新' }}
         </button>
@@ -24,7 +24,7 @@
           <td>{{ category.category }}</td>
           <td>{{ category.description }}</td>
           <td>
-            <button style="color:#1677FF" class="mr-2" @click="editCategory(index)">编辑</button>
+            <button style="color:#1677FF" class="mr-2" @click="openEditDialog(index)">编辑</button>
             <button style="color:#1677FF" class="mr-2" @click="deleteCategory(category.id)">删除</button>
           </td>
         </tr>
@@ -34,7 +34,7 @@
     <v-dialog v-model="showAddDialog" max-width="500px">
       <v-card>
         <v-card-title>
-          <span class="text-h5">添加分类</span>
+          <span class="text-h5">{{ isEditMode ? '编辑分类' : '添加分类' }}</span>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -51,7 +51,9 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn @click="showAddDialog = false">取消</v-btn>
-          <v-btn @click="handleAddCategory">添加分类</v-btn>
+          <v-btn @click="isEditMode ? handleEditCategory() : handleAddCategory()">
+            {{ isEditMode ? '保存更改' : '添加分类' }}
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -67,6 +69,8 @@ const showAddDialog = ref(false)
 const isLoading = ref(false)
 const newCategory = ref('')
 const newDescription = ref('')
+const isEditMode = ref(false)
+const currentCategoryId = ref(null)
 
 // 将 categories 变成 ref
 const categories = ref([])
@@ -121,16 +125,55 @@ const addCategory = async (category: string, description: string) => {
   }
 }
 
-
 const handleAddCategory = () => {
   addCategory(newCategory.value, newDescription.value)
   newCategory.value = ''
   newDescription.value = ''
 }
 
-const editCategory = (index: number) => {
-  // 实现编辑逻辑
-  console.log('编辑分类:', index)
+const openAddDialog = () => {
+  newCategory.value = ''
+  newDescription.value = ''
+  isEditMode.value = false
+  showAddDialog.value = true
+}
+
+const openEditDialog = (index: number) => {
+  const category = categories.value[index]
+  newCategory.value = category.category
+  newDescription.value = category.description
+  currentCategoryId.value = category.id
+  isEditMode.value = true
+  showAddDialog.value = true
+}
+
+const handleEditCategory = async () => {
+  isLoading.value = true
+
+  try {
+    const { data, error } = await useFetch('/api/data-manager', {
+      method: 'POST',
+      server: false,
+      key: "data-manager",
+      body: {
+        action: 'editCategory',
+        data: { id: currentCategoryId.value, category: newCategory.value, description: newDescription.value }
+      }
+    })
+
+    if (error.value) {
+      throw new Error(error.value.message)
+    }
+
+    // 编辑成功后刷新数据
+    await fetchCategories()
+
+  } catch (error) {
+    console.error('Error calling API:', error)
+  } finally {
+    showAddDialog.value = false
+    isLoading.value = false
+  }
 }
 
 const deleteCategory = async (id: string) => {
@@ -149,7 +192,7 @@ const deleteCategory = async (id: string) => {
       throw new Error(error.value.message)
     }
 
-    // 添加成功后刷新数据
+    // 删除成功后刷新数据
     await fetchCategories()
 
   } catch (error) {
@@ -159,7 +202,6 @@ const deleteCategory = async (id: string) => {
     isLoading.value = false
   }
 
-  // 实现删除逻辑
   console.log('删除分类:', id)
 }
 </script>
