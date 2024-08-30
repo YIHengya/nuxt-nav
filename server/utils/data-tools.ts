@@ -50,6 +50,7 @@ export async function deleteLinkFromCategory(categoryName: any, linkName: any) {
   }
 }
 
+// 根据id删除分类
 export async function deleteCategoryById(categoryId: any) {
   let data = await readJsonFile()
   data = data.filter((item: { id: any }) => item.id !== categoryId)
@@ -75,3 +76,26 @@ export async function editCategoryById(categoryId: any, newCategory: any, newDes
     throw new Error(`Category with ID "${categoryId}" not found`);
   }
 }
+
+export async function addToolToCategory(categoryId: number, tool: any) {
+  const data = await readJsonFile();
+  const category = data.find((item: { id: number }) => item.id === categoryId);
+  if (category) {
+    // 确保 links 数组存在
+    if (!category.links) {
+      category.links = [];
+    }
+    // 为新工具生成一个唯一ID，并移除 categoryId
+    const { categoryId: _, ...toolWithoutCategoryId } = tool;
+    const newTool = {
+      ...toolWithoutCategoryId,
+      id: Date.now() // 使用时间戳作为唯一ID
+    };
+    category.links.push(newTool);
+    await writeJsonFile(data);
+    return newTool; // 返回新添加的工具，包括生成的ID
+  } else {
+    throw new Error(`Category with ID "${categoryId}" not found`);
+  }
+}
+
