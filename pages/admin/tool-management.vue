@@ -194,6 +194,9 @@ const handleAddTool = () => {
 }
 
 const openAddDialog = () => {
+  const twitterFavicon = getFaviconUrl('https://twitter.com');
+console.log(twitterFavicon);
+
   resetNewTool()
   isEditMode.value = false
   showAddDialog.value = true
@@ -233,6 +236,12 @@ const handleEditTool = async () => {
     isLoading.value = false
   }
 }
+function getFaviconUrl(url: string): string {
+  return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(url)}`;
+}
+
+// 使用示例
+
 
 const deleteTool = async (id: string) => {
   try {

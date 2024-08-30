@@ -87,6 +87,12 @@ export async function addToolToCategory(categoryId: number, tool: any) {
     }
     // 为新工具生成一个唯一ID，并移除 categoryId
     const { categoryId: _, ...toolWithoutCategoryId } = tool;
+
+    // 如果图标链接为空，自动生成
+    if (!toolWithoutCategoryId.icon || toolWithoutCategoryId.icon.trim() === '') {
+      toolWithoutCategoryId.icon = getDuckDuckGoFaviconUrl(toolWithoutCategoryId.url);
+    }
+
     const newTool = {
       ...toolWithoutCategoryId,
       id: Date.now() // 使用时间戳作为唯一ID
@@ -97,6 +103,11 @@ export async function addToolToCategory(categoryId: number, tool: any) {
   } else {
     throw new Error(`Category with ID "${categoryId}" not found`);
   }
+}
+
+// 辅助函数：获取网站图标
+function getDuckDuckGoFaviconUrl(url: string): string {
+  return `https://icons.duckduckgo.com/ip3/${new URL(url).hostname}.ico`;
 }
 
 export async function deleteToolById(toolId: number) {

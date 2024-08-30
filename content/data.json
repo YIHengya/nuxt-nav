@@ -88,6 +88,20 @@
           "description": "14625374754742635",
           "url": "https://dasfew.com",
           "icon": "https://dasfew.com"
+        },
+        {
+          "id": 1725005592993,
+          "name": "手机无人直播工具",
+          "description": "带有一定的效果，但是不大",
+          "url": "https://vcamx.com",
+          "icon": "https://www.google.com/s2/favicons?domain=https%3A%2F%2Fvcamx.com"
+        },
+        {
+          "id": 1725005711966,
+          "name": "裁剪工具",
+          "description": "有没有用看个人",
+          "url": "https://vcamx.com",
+          "icon": "https://icons.duckduckgo.com/ip3/vcamx.com.ico"
         }
       ]
     }
