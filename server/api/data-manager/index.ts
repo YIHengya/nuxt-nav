@@ -1,5 +1,5 @@
 import { defineEventHandler, readBody } from 'h3'
-import { addToolToCategory, deleteCategoryById, deleteToolById, editCategoryById } from '~/server/utils/data-tools'
+import { addToolToCategory, deleteCategoryById, deleteToolById, editCategoryById, updateToolById } from '~/server/utils/data-tools'
 
 let lastRequestTime = 0
 const RATE_LIMIT_INTERVAL = 1000 // 5 seconds in milliseconds
@@ -71,6 +71,14 @@ export default defineEventHandler(async (event) => {
           success: true,
           message: 'Tool deleted successfully'
         };
+      case 'editTool':
+        const updatedTool = await updateToolById(data.id, data);
+        return {
+          success: true,
+          message: 'Tool updated successfully',
+          data: updatedTool
+        };
+
       default:
         throw new Error('Invalid action')
     }

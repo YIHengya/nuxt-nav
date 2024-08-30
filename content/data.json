@@ -6,48 +6,6 @@
       "description": "常用的社交网络平台",
       "links": [
         {
-          "id": 1,
-          "name": "Twitter",
-          "url": "https://twitter.com",
-          "icon": "https://abs.twimg.com/responsive-web/client-web/icon-svg.ea5ff4aa.svg",
-          "description": "实时分享想法和信息的微博平台"
-        },
-        {
-          "id": 2,
-          "name": "Twitter",
-          "url": "https://twitter.com",
-          "icon": "https://abs.twimg.com/responsive-web/client-web/icon-svg.ea5ff4aa.svg",
-          "description": "实时分享想法和信息的微博平台"
-        },
-        {
-          "id": 3,
-          "name": "Twitter",
-          "url": "https://twitter.com",
-          "icon": "https://abs.twimg.com/responsive-web/client-web/icon-svg.ea5ff4aa.svg",
-          "description": "实时分享想法和信息的微博平台"
-        },
-        {
-          "id": 4,
-          "name": "Twitter",
-          "url": "https://twitter.com",
-          "icon": "https://abs.twimg.com/responsive-web/client-web/icon-svg.ea5ff4aa.svg",
-          "description": "实时分享想法和信息的微博平台"
-        },
-        {
-          "id": 5,
-          "name": "Twitter",
-          "url": "https://twitter.com",
-          "icon": "https://abs.twimg.com/responsive-web/client-web/icon-svg.ea5ff4aa.svg",
-          "description": "实时分享想法和信息的微博平台"
-        },
-        {
-          "id": 6,
-          "name": "Twitter",
-          "url": "https://twitter.com",
-          "icon": "https://abs.twimg.com/responsive-web/client-web/icon-svg.ea5ff4aa.svg",
-          "description": "实时分享想法和信息的微博平台"
-        },
-        {
           "id": 7,
           "name": "Twitter",
           "url": "https://twitter.com",
@@ -65,14 +23,14 @@
           "id": 8,
           "name": "Google",
           "url": "https://google.com",
-          "icon": "google-icon.png",
+          "icon": "https://icons.duckduckgo.com/ip3/google.com.ico",
           "description": "全球最大的搜索引擎"
         },
         {
           "id": 9,
           "name": "Bing",
           "url": "https://bing.com",
-          "icon": "bing-icon.png",
+          "icon": "https://icons.duckduckgo.com/ip3/bing.com.ico",
           "description": "微软开发的搜索引擎"
         }
       ]
@@ -87,19 +45,12 @@
           "name": "ai搜索工具",
           "description": "14625374754742635",
           "url": "https://dasfew.com",
-          "icon": "https://dasfew.com"
+          "icon": "https://icons.duckduckgo.com/ip3/dasfew.com.ico"
         },
         {
           "id": 1725005592993,
           "name": "手机无人直播工具",
           "description": "带有一定的效果，但是不大",
-          "url": "https://vcamx.com",
-          "icon": "https://www.google.com/s2/favicons?domain=https%3A%2F%2Fvcamx.com"
-        },
-        {
-          "id": 1725005711966,
-          "name": "裁剪工具",
-          "description": "有没有用看个人",
           "url": "https://vcamx.com",
           "icon": "https://icons.duckduckgo.com/ip3/vcamx.com.ico"
         }

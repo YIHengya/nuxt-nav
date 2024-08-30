@@ -195,7 +195,7 @@ const handleAddTool = () => {
 
 const openAddDialog = () => {
   const twitterFavicon = getFaviconUrl('https://twitter.com');
-console.log(twitterFavicon);
+  console.log(twitterFavicon);
 
   resetNewTool()
   isEditMode.value = false
@@ -212,6 +212,7 @@ const handleEditTool = async () => {
   isLoading.value = true
 
   try {
+    console.log("newTool",newTool.value)
     const { data, error } = await useFetch('/api/data-manager', {
       method: 'POST',
       server: false,
@@ -239,9 +240,6 @@ const handleEditTool = async () => {
 function getFaviconUrl(url: string): string {
   return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(url)}`;
 }
-
-// 使用示例
-
 
 const deleteTool = async (id: string) => {
   try {

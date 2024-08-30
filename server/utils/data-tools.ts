@@ -4,7 +4,6 @@ import { resolve } from 'path'
 
 const FILE_PATH = resolve(process.cwd(), './content/data.json')
 
-
 async function readJsonFile() {
   const data = await fs.readFile(FILE_PATH, 'utf8')
   return JSON.parse(data)['body']
@@ -105,10 +104,6 @@ export async function addToolToCategory(categoryId: number, tool: any) {
   }
 }
 
-// 辅助函数：获取网站图标
-function getDuckDuckGoFaviconUrl(url: string): string {
-  return `https://icons.duckduckgo.com/ip3/${new URL(url).hostname}.ico`;
-}
 
 export async function deleteToolById(toolId: number) {
   const data = await readJsonFile();
@@ -133,4 +128,65 @@ export async function deleteToolById(toolId: number) {
   } else {
     throw new Error(`Tool with ID "${toolId}" not found.`);
   }
+}
+
+export async function updateToolById(toolId: any, updatedTool: any) {
+  const data = await readJsonFile();
+  let toolUpdated = false;
+
+  for (let category of data) {
+    if (category.links) {
+      const toolIndex = category.links.findIndex((tool: { id: number }) => tool.id === toolId);
+      if (toolIndex !== -1) {
+        // 找到了工具，更新其内容
+        const currentTool = category.links[toolIndex];
+        
+        // 更新工具的各个字段，如果提供了新值的话
+        if (updatedTool.name !== undefined) currentTool.name = updatedTool.name;
+        if (updatedTool.description !== undefined) currentTool.description = updatedTool.description;
+        if (updatedTool.url !== undefined) {
+          currentTool.url = updatedTool.url;
+          // 如果 URL 改变，自动更新图标
+          currentTool.icon = getDuckDuckGoFaviconUrl(currentTool.url);
+        }
+        if (updatedTool.icon !== undefined) {
+          currentTool.icon = updatedTool.icon;
+        }
+        
+        // 如果图标为空，自动获取
+        if (!currentTool.icon || currentTool.icon.trim() === '') {
+          currentTool.icon = getDuckDuckGoFaviconUrl(currentTool.url);
+        }
+        
+        // 如果需要更新 categoryId，我们需要将工具移动到新的分类
+        if (updatedTool.categoryId !== undefined && updatedTool.categoryId !== category.id) {
+          const newCategory = data.find((item: { id: number }) => item.id === updatedTool.categoryId);
+          if (newCategory) {
+            // 从当前分类中移除
+            category.links.splice(toolIndex, 1);
+            // 添加到新分类
+            if (!newCategory.links) newCategory.links = [];
+            newCategory.links.push(currentTool);
+          } else {
+            throw new Error(`Category with ID "${updatedTool.categoryId}" not found`);
+          }
+        }
+
+        toolUpdated = true;
+        break; // 工具已找到并更新，退出循环
+      }
+    }
+  }
+
+  if (toolUpdated) {
+    await writeJsonFile(data);
+    return { success: true, message: `Tool with ID "${toolId}" has been updated.` };
+  } else {
+    throw new Error(`Tool with ID "${toolId}" not found.`);
+  }
+}
+
+// 辅助函数：获取网站图标
+function getDuckDuckGoFaviconUrl(url: string): string {
+  return `https://icons.duckduckgo.com/ip3/${new URL(url).hostname}.ico`;
 }
