@@ -6,10 +6,11 @@
       </v-col>
       <v-col cols="6" class="text-right">
         <button style="color:#1677FF" class="m-1" @click="showAddDialog = true">添加</button>
-        <button style="color:#1677FF" class="ml-3" @click="handleRefresh">刷新</button>
+        <button style="color:#1677FF" class="ml-3" @click="handleRefresh" :disabled="isLoading">
+          {{ isLoading ? '刷新中...' : '刷新' }}
+        </button>
       </v-col>
     </v-row>
-
     <v-table>
       <thead>
         <tr>
@@ -23,8 +24,8 @@
           <td>{{ category.category }}</td>
           <td>{{ category.description }}</td>
           <td>
-            <button style="color:#1677FF" class="mr-2" @click="deleteCategory(category.id)">编辑</button>
-            <button style="color:#1677FF" class="mr-2" @click="editCategory(index)">删除</button>
+            <button style="color:#1677FF" class="mr-2" @click="editCategory(index)">编辑</button>
+            <button style="color:#1677FF" class="mr-2" @click="deleteCategory(category.id)">删除</button>
           </td>
         </tr>
       </tbody>
@@ -49,8 +50,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn  @click="showAddDialog = false">取消</v-btn>
-          <v-btn   @click="addCategory('asdfasdf','weqrqwer')">添加分类</v-btn>
+          <v-btn @click="showAddDialog = false">取消</v-btn>
+          <v-btn @click="handleAddCategory">添加分类</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -66,11 +67,29 @@ const showAddDialog = ref(false)
 const isLoading = ref(false)
 const newCategory = ref('')
 const newDescription = ref('')
-const { body: categories } = await queryContent('/data').findOne()
 
-function handleRefresh() {
-  console.log('刷新操作');
-  // 进行刷新逻辑处理
+// 将 categories 变成 ref
+const categories = ref([])
+
+// 创建一个异步函数来获取最新的 category 数据
+const fetchCategories = async () => {
+  try {
+    const { body } = await queryContent('/data').findOne()
+    categories.value = body
+  } catch (error) {
+    console.error('Error fetching categories:', error)
+  }
+}
+
+// 初始化时获取数据
+fetchCategories()
+
+// 修改 handleRefresh 函数
+async function handleRefresh() {
+  console.log('刷新操作')
+  isLoading.value = true
+  await fetchCategories()
+  isLoading.value = false
 }
 
 const addCategory = async (category: string, description: string) => {
@@ -79,8 +98,8 @@ const addCategory = async (category: string, description: string) => {
   try {
     const { data, error } = await useFetch('/api/data-manager', {
       method: 'POST',
-      server:false,
-      key:"data-manager",
+      server: false,
+      key: "data-manager",
       body: {
         action: 'addCategory',
         data: { category, description }
@@ -91,16 +110,20 @@ const addCategory = async (category: string, description: string) => {
       throw new Error(error.value.message)
     }
 
+    // 添加成功后刷新数据
+    await fetchCategories()
+
   } catch (error) {
     console.error('Error calling API:', error)
   } finally {
+    showAddDialog.value = false
     isLoading.value = false
   }
 }
 
+
 const handleAddCategory = () => {
   addCategory(newCategory.value, newDescription.value)
-  showAddDialog.value = false
   newCategory.value = ''
   newDescription.value = ''
 }
@@ -110,15 +133,39 @@ const editCategory = (index: number) => {
   console.log('编辑分类:', index)
 }
 
-const deleteCategory = (id: string) => {
+const deleteCategory = async (id: string) => {
+  try {
+    const { data, error } = await useFetch('/api/data-manager', {
+      method: 'POST',
+      server: false,
+      key: "data-manager",
+      body: {
+        action: 'deleteCategory',
+        data: { id }
+      }
+    })
+
+    if (error.value) {
+      throw new Error(error.value.message)
+    }
+
+    // 添加成功后刷新数据
+    await fetchCategories()
+
+  } catch (error) {
+    console.error('Error calling API:', error)
+  } finally {
+    showAddDialog.value = false
+    isLoading.value = false
+  }
+
   // 实现删除逻辑
   console.log('删除分类:', id)
 }
 </script>
 
 <style scoped>
-.admin-panel-header bottom{
-
+.admin-panel-header bottom {
   margin: 5px;
 }
 </style>

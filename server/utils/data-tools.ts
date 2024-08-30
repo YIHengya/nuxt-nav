@@ -15,14 +15,15 @@ async function writeJsonFile(data: any) {
 }
 
 export async function addCategory(category: any, description: any) {
-  const data = await readJsonFile()
+  const data = await readJsonFile();
   const newCategory = {
+    id: Date.now(), // 使用时间戳作为唯一ID
     category,
     description,
     links: []
-  }
-  data.push(newCategory)
-  await writeJsonFile(data)
+  };
+  data.push(newCategory);
+  await writeJsonFile(data);
 }
 
 export async function addLinkToCategory(categoryName: any, link: any) {
@@ -36,11 +37,7 @@ export async function addLinkToCategory(categoryName: any, link: any) {
   }
 }
 
-export async function deleteCategory(categoryName: any) {
-  let data = await readJsonFile()
-  data = data.filter((item: { category: any }) => item.category !== categoryName)
-  await writeJsonFile(data)
-}
+
 
 export async function deleteLinkFromCategory(categoryName: any, linkName: any) {
   const data = await readJsonFile()
@@ -51,4 +48,16 @@ export async function deleteLinkFromCategory(categoryName: any, linkName: any) {
   } else {
     throw new Error(`Category "${categoryName}" not found`)
   }
+}
+
+export async function deleteCategoryById(categoryId: any) {
+  let data = await readJsonFile()
+  data = data.filter((item: { id: any }) => item.id !== categoryId)
+  await writeJsonFile(data)
+}
+
+export async function deleteCategory(categoryName: any) {
+  let data = await readJsonFile()
+  data = data.filter((item: { category: any }) => item.category !== categoryName)
+  await writeJsonFile(data)
 }
