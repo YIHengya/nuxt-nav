@@ -2,64 +2,134 @@
   "body": [
     {
       "id": 1,
-      "category": "社交媒体",
-      "description": "常用的社交网络平台",
+      "category": "写作工具",
+      "description": "AI智能写作辅助工具",
       "links": [
         {
-          "id": 7,
-          "name": "Twitter",
-          "url": "https://twitter.com",
-          "icon": "https://abs.twimg.com/responsive-web/client-web/icon-svg.ea5ff4aa.svg",
-          "description": "实时分享想法和信息的微博平台"
+          "id": 1,
+          "name": "秘塔写作猫",
+          "url": "https://xiezuocat.com/",
+          "icon": "https://www.tboxn.com/wp-content/uploads/2024/08/1722585029-be53080dac6d1f24d8a877c4d1af0147.jpeg",
+          "description": "AI智能写作辅助神器"
+        },
+        {
+          "id": 2,
+          "name": "Kimi智能助手",
+          "url": "https://kimi.moonshot.cn",
+          "icon": "https://www.tboxn.com/wp-content/uploads/2024/05/1715867605-logo.png",
+          "description": "超强AI写作助手，一键总结20w字长文"
+        },
+        {
+          "id": 3,
+          "name": "ChatGAi",
+          "url": "https://chatgai.lovepor.cn/",
+          "icon": "https://www.tboxn.com/wp-content/uploads/2023/11/head_logo_3x.png",
+          "description": "基于ChatGPT接口开发的AI写作、问答、聊天、翻译多功能AI工具"
         }
       ]
     },
     {
       "id": 2,
+      "category": "PPT生成工具",
+      "description": "AI一键生成PPT工具",
+      "links": [
+        {
+          "id": 4,
+          "name": "AI灵感PPT",
+          "url": "https://box.lgppt.cn/",
+          "icon": "https://www.tboxn.com/wp-content/uploads/2024/03/微信图片_20240306175603.png",
+          "description": "一键PPT生成,全套AI办公工具"
+        },
+        {
+          "id": 5,
+          "name": "iSlide-AI设计PPT",
+          "url": "https://www.islide.cc",
+          "icon": "https://www.tboxn.com/wp-content/uploads/2024/08/1724407698-微信图片_20240823180504.jpg",
+          "description": "AI一键设计PPT，支持上传word、脑图生成"
+        },
+        {
+          "id": 6,
+          "name": "AiPPT",
+          "url": "https://www.aippt.cn",
+          "icon": "https://www.tboxn.com/wp-content/uploads/2023/11/微信图片_20231101193930.jpg",
+          "description": "AI一键生成PPT，输入主题即可在3分钟内生成专业级PPT"
+        }
+      ]
+    },
+    {
+      "id": 3,
       "category": "搜索引擎",
-      "description": "常用的网络搜索工具",
+      "description": "AI搜索引擎工具",
       "links": [
         {
           "id": 8,
-          "name": "Google",
-          "url": "https://google.com",
-          "icon": "https://icons.duckduckgo.com/ip3/google.com.ico",
-          "description": "全球最大的搜索引擎"
-        },
+          "name": "开搜AI",
+          "url": "https://kaisouai.com",
+          "icon": "https://www.tboxn.com/wp-content/uploads/2024/05/1715074014-开搜-AIlogo.png",
+          "description": "无广告、直达答案的AI专业语义搜索引擎"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "category": "论文工具",
+      "description": "AI论文生成与编辑工具",
+      "links": [
         {
           "id": 9,
-          "name": "Bing",
-          "url": "https://bing.com",
-          "icon": "https://icons.duckduckgo.com/ip3/bing.com.ico",
-          "description": "微软开发的搜索引擎"
+          "name": "万能小in-论文神器",
+          "url": "https://xiaoin.com.cn",
+          "icon": "https://www.tboxn.com/wp-content/uploads/2024/02/万能小in.png",
+          "description": "AI一键论文，3分钟4万字，130+应用"
+        },
+        {
+          "id": 10,
+          "name": "千笔AI论文-AIPaperPass",
+          "url": "https://www.aipaperpass.com",
+          "icon": "https://www.tboxn.com/wp-content/uploads/2024/02/AIPaperPass.png",
+          "description": "5分钟3万字，AI无限改稿"
         }
       ]
     },
     {
-      "id": 1724996539310,
-      "category": "AI工具",
-      "description": "各种好用的AI工具网站",
+      "id": 5,
+      "category": "视频创作",
+      "description": "AI视频创作工具",
       "links": [
         {
-          "id": 1725005592993,
-          "name": "手机无人直播工具",
-          "description": "带有一定的效果，但是不大",
-          "url": "https://vcamx.com",
-          "icon": "https://icons.duckduckgo.com/ip3/vcamx.com.ico"
+          "id": 11,
+          "name": "有言",
+          "url": "https://youyan.xyz",
+          "icon": "https://www.tboxn.com/wp-content/uploads/2024/05/1716281950-有言3D视频.png",
+          "description": "一站式AI视频创作，1200+免费3D数字人"
+        },
+        {
+          "id": 12,
+          "name": "创一AI短视频脚本",
+          "url": "https://www.creatifyone.com",
+          "icon": "https://www.tboxn.com/wp-content/uploads/2024/08/1724763253-微信图片_20240827205346.jpg",
+          "description": "一站式AI智能分析和短视频脚本生成神器"
         }
       ]
     },
     {
-      "id": 1725019678797,
-      "category": "无人直播",
-      "description": "",
+      "id": 1725087073521,
+      "category": "直播工具",
+      "description": "搭配直播使用的工具",
       "links": [
         {
-          "id": 1725019901137,
-          "name": "换脸工具",
-          "description": "使用本地gpu推理",
-          "url": "https://github.com/hacksider/Deep-Live-Cam",
-          "icon": "https://icons.duckduckgo.com/ip3/github.com.ico"
+          "id": 1725087115513,
+          "name": "obs",
+          "description": "用于视频录制和直播的免费开源软件。  在 Windows、Mac 或 Linux 上快速轻松地下载并开始流式传输。",
+          "url": "https://obsproject.com/",
+          "icon": "https://icons.duckduckgo.com/ip3/obsproject.com.ico"
+        },
+        {
+          "id": 1725087228425,
+          "name": "无界直播",
+          "description": "手机上支持多种方式的直播软件",
+          "url": "https://shop.vcamx.com",
+          "icon": "https://icons.duckduckgo.com/ip3/shop.vcamx.com.ico"
         }
       ]
     }
