@@ -19,17 +19,19 @@
         </CategoryItem>
       </div>
     </div>
-    <div class="scrollable-container pt-2">
-      <LinkCard 
-        class="link-card" 
-        v-for="link in filteredLinks" 
-        :key="link.name" 
-        :link="link" 
-        :icon="link.icon" 
-        :url="link.url"
-      >
-        {{link.name}}
-      </LinkCard>
+    <div class="links-container">
+      <div class="scrollable-container pt-2">
+        <LinkCard 
+          class="link-card" 
+          v-for="link in filteredLinks" 
+          :key="link.name" 
+          :link="link" 
+          :icon="link.icon" 
+          :url="link.url"
+        >
+          {{link.name}}
+        </LinkCard>
+      </div>
     </div>
   </div>
 </template>
@@ -80,7 +82,9 @@ watch(searchQuery, (newValue) => {
   border-radius: 4px;
   box-sizing: border-box;
 }
-
+.links-container{
+  height: 400px;
+}
 .scrollable-container {
   display: flex;
   flex-wrap: wrap;
