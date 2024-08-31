@@ -21,7 +21,7 @@ const click = () => {
 
 <style scoped>
 .category-item {
-  padding: 2px 4px;
+  padding: 3px 6px;
   border-radius: 15px;
   border: solid 1px #424242;
   color: #424242;

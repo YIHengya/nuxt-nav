@@ -41,18 +41,25 @@
       "description": "各种好用的AI工具网站",
       "links": [
         {
-          "id": 1725005076280,
-          "name": "ai搜索工具",
-          "description": "14625374754742635",
-          "url": "https://dasfew.com",
-          "icon": "https://icons.duckduckgo.com/ip3/dasfew.com.ico"
-        },
-        {
           "id": 1725005592993,
           "name": "手机无人直播工具",
           "description": "带有一定的效果，但是不大",
           "url": "https://vcamx.com",
           "icon": "https://icons.duckduckgo.com/ip3/vcamx.com.ico"
+        }
+      ]
+    },
+    {
+      "id": 1725019678797,
+      "category": "无人直播",
+      "description": "",
+      "links": [
+        {
+          "id": 1725019901137,
+          "name": "换脸工具",
+          "description": "使用本地gpu推理",
+          "url": "https://github.com/hacksider/Deep-Live-Cam",
+          "icon": "https://icons.duckduckgo.com/ip3/github.com.ico"
         }
       ]
     }

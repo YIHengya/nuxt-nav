@@ -1,9 +1,28 @@
 <template>
   <div class="container">
-    <div class="scrollable-container">
+    <input v-model="searchQuery" placeholder="搜索关键词..." class="search-input" />
+    <div v-if="categories" class="navigation">
+      <div class="category-container">
+        <CategoryItem 
+          :isCurrentButton="currentCategory === 'all'" 
+          @click="setCurrentCategory('all')"
+        >
+          全部工具
+        </CategoryItem>
+      </div>
+      <div v-for="(category, index) in categories" :key="category.category" class="category-container">
+        <CategoryItem 
+          :isCurrentButton="currentCategory === index" 
+          @click="setCurrentCategory(index)"
+        >
+          {{ category.category }}
+        </CategoryItem>
+      </div>
+    </div>
+    <div class="scrollable-container pt-2">
       <LinkCard 
         class="link-card" 
-        v-for="link in categories[currentCategory].links" 
+        v-for="link in filteredLinks" 
         :key="link.name" 
         :link="link" 
         :icon="link.icon" 
@@ -16,10 +35,36 @@
 </template>
 
 <script setup>
-import { inject } from 'vue'
-const { body: categories } = await queryContent('/data').findOne()
+import { ref, computed, watch } from 'vue'
 
-const currentCategory = inject('currentCategory')
+const { body: categories } = await queryContent('/data').findOne()
+const currentCategory = ref('all')
+const searchQuery = ref('')
+
+const setCurrentCategory = (index) => {
+  currentCategory.value = index
+}
+
+const allLinks = computed(() => {
+  return categories.flatMap(category => category.links)
+})
+
+const filteredLinks = computed(() => {
+  const links = currentCategory.value === 'all' ? allLinks.value : categories[currentCategory.value].links
+  if (!searchQuery.value) {
+    return links
+  }
+  return links.filter(link =>
+    link.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  )
+})
+
+// 监听 searchQuery 的变化
+watch(searchQuery, (newValue) => {
+  if (newValue && currentCategory.value !== 'all') {
+    currentCategory.value = 'all'
+  }
+})
 </script>
 
 <style scoped>
@@ -27,21 +72,29 @@ const currentCategory = inject('currentCategory')
   margin-top: 10px;
 }
 
+.search-input {
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
 .scrollable-container {
   display: flex;
   flex-wrap: wrap;
-  max-height: 400px; /* 设置一个固定的最大高度 */
-  overflow-y: auto; /* 允许垂直滚动 */
-  padding-right: 10px; /* 为滚动条留出空间 */
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 10px;
 }
 
 .link-card {
   margin: 2px;
-  flex: 0 0 calc(33.333% - 4px); /* 假设每行显示3个卡片，可以根据需要调整 */
+  flex: 0 0 calc(33.333% - 4px);
   max-width: calc(33.333% - 4px);
 }
 
-/* 自定义滚动条样式（可选） */
 .scrollable-container::-webkit-scrollbar {
   width: 8px;
 }
@@ -59,7 +112,18 @@ const currentCategory = inject('currentCategory')
   background: #555;
 }
 
-/* 适配不同屏幕尺寸 */
+.navigation {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.category-container {
+  text-align: center;
+  padding-right: 4px;
+  margin-bottom: 4px;
+}
+
 @media (max-width: 768px) {
   .link-card {
     flex: 0 0 calc(50% - 4px);

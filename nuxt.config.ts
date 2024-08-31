@@ -11,6 +11,16 @@ export default defineNuxtConfig({
   routeRules: {
     '/': { prerender: true }
   },
+  app:{
+    head:{
+      title:"Nuxt Nav",
+      link:[
+        {
+          rel:"icon",type:"image/x-icon",href:"favicon.ico"
+        }
+      ]
+    }
+  },
 
   compatibilityDate: '2024-08-29'
 })

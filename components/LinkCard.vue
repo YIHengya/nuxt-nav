@@ -1,6 +1,6 @@
 <template>
-  <div class="link-card">
-    <a :href="url" target="_blank" rel="noopener noreferrer" class="link-content">
+  <a :href="url" target="_blank" rel="noopener noreferrer" class="link-card">
+    <div class="link-content">
       <img v-if="icon" :src="icon" :alt="link.name" class="link-icon" />
       <div class="link-text">
         <span class="link-name">
@@ -8,8 +8,8 @@
         </span>
         <p v-if="link.description" class="link-description">{{ link.description }}</p>
       </div>
-    </a>
-  </div>
+    </div>
+  </a>
 </template>
 
 <script lang="ts" setup>
@@ -29,6 +29,8 @@ const props = defineProps<{
 
 <style scoped>
 .link-card {
+  padding:10px;
+  display: block; /* 使整个卡片可点击 */
   background-color: #ffffff;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
@@ -39,6 +41,7 @@ const props = defineProps<{
   flex-flow: wrap;
   width: 300px;
   min-height: 100px;
+  text-decoration: none; /* 移除链接下划线 */
 }
 
 .link-card:hover {
